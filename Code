@@ -1,0 +1,70 @@
+# COX
+fit <- coxph(Surv(Dementia_years,Dementia_status==1)~Frailty_status+cov1+cov2+cov3+cov4+cov5,data=Main_analysis_data)
+summary(fit)
+
+fit <- coxph(Surv(Dementia_years,Dementia_status==1)~PRS_status+cov1+cov2+cov3+cov4+cov5,data=Main_analysis_data)
+summary(fit)
+
+fit <- coxph(Surv(Dementia_years,Dementia_status==1)~Group_Frailty_PRS+cov1+cov2+cov3+cov4+cov5,data=Main_analysis_data)
+summary(fit)
+
+fit <- coxph(Surv(Dementia_years,Dementia_status==1)~Group_Components_PRS+cov1+cov2+cov3+cov4+cov5,data=Main_analysis_data)
+summary(fit)
+
+#Forestplot Figure 1
+forest <- read.csv('Forest-Figure1.csv')
+subgps <- c(3:5,7:9,11:13)
+forest$Variable[subgps] <- paste("  ",forest$Variable[subgps])
+attach(forest)
+labeltext <- as.matrix(forest[,c(1:5)])
+forestplot(labeltext,
+           mean=HR,
+           lower=LowerCI,
+           upper=UpperCI,
+           zero=1.0,
+           lwd.zero=3,
+           xticks=c(0.5,1,2,3,4,5),clip = c(0.9,5), 
+           lwd.xaxis = 3,
+           lty.ci = 1,lwd.ci=3,
+           ci.vertices = T,
+           ci.vertices.height=0,
+           fn.ci_norm=fpDrawNormalCI,
+           boxsize=0.25, 
+           col=fpColors(box='#29515D',zero = 'grey',lines = 'black'),
+           verticle=T,
+           xlab='Hazard Ratio (95% CI)',
+           txt_gp = fpTxtGp(label = gpar(cex = 2.4), 
+                            ticks = gpar(cex = 1.5), 
+                            xlab = gpar(cex =2)),graph.pos=5,
+           graphwidth=unit(160,'mm'),
+           lineheight=unit(30,'mm'),hjust=5
+)
+#Forestplot Figure2
+forest <- read.csv('Forest-Figure2-ver1.csv')
+subgps <- c(3:8,11:16,19:24,27:32)
+forest$Variable[subgps] <- paste("  ",forest$Variable[subgps])
+attach(forest)
+labeltext <- as.matrix(forest[,c(1:5)])
+forestplot(labeltext,
+           mean=HR,
+           lower=LowerCI,
+           upper=UpperCI,
+           zero=1.0,
+           lwd.zero=3,
+           xticks=c(0.5,1,1.5,2,2.5),clip = c(0.9,5), 
+           lwd.xaxis = 3,
+           lty.ci = 1,lwd.ci=3,
+           ci.vertices = T,
+           ci.vertices.height=0,
+           fn.ci_norm=fpDrawNormalCI,
+           boxsize=0.25, 
+           col=fpColors(box='#29515D',zero = 'grey',lines = 'black'),
+           verticle=T,
+           xlab='Hazard Ratio (95% CI)',
+           txt_gp = fpTxtGp(label = gpar(cex = 2.4), 
+                            ticks = gpar(cex = 1.5), 
+                            xlab = gpar(cex =2)),graph.pos=5,
+           graphwidth=unit(160,'mm'),
+           lineheight=unit(30,'mm'),hjust=5
+)
+#width==30 height==25
